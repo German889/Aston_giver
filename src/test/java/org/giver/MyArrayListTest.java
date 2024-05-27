@@ -4,12 +4,13 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Comparator;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 class GiverArrayListTest {
 
     @org.junit.jupiter.api.Test
-    void add() {
+    void addElementInEnd() {
         GiverArrayList<Employee> list = new GiverArrayList<>();
         for (int i = 0; i < 1000; i++) {
             Employee giver = new Employee();
@@ -20,6 +21,27 @@ class GiverArrayListTest {
             assertEquals(giver, list.get(i));
         }
         assertEquals(1000, list.size());
+    }
+    @org.junit.jupiter.api.Test
+    void addElementToRandomIndex(){
+        GiverArrayList<Employee> list = new GiverArrayList<>();
+        Random random = new Random();
+        for(int i=0; i<1000; i++){
+            Employee giver = new Employee();
+            giver.setAge(23);
+            giver.setMoney(3000);
+            giver.setExperience(1);
+            list.add(giver);
+        }
+        for(int i=0; i<1000; i++){
+            Employee giver = new Employee();
+            giver.setAge(25);
+            giver.setMoney(1000);
+            giver.setExperience(2);
+            int position = random.nextInt(1000);
+            list.add(position, giver);
+            assertEquals(giver, list.get(position));
+        }
     }
 
     @org.junit.jupiter.api.Test
