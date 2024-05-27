@@ -6,6 +6,8 @@ import java.util.Comparator;
  * Этот класс не является потокобезопасным.
  *
  * @param <T> Тип элементов, хранимых в списке
+ * @author Givermaen
+ * @version $Id: $Id
  */
 public class GiverArrayList<T> {
     /**
@@ -33,7 +35,7 @@ public class GiverArrayList<T> {
      * Если начальная емкость указана как 0, то используется емкость по умолчанию.
      *
      * @param initialCapacity указывает начальную емкость списка
-     * @throws IllegalArgumentException если указана отрицательная начальная емкость
+     * @throws java.lang.IllegalArgumentException если указана отрицательная начальная емкость
      */
     public GiverArrayList(int initialCapacity) {
         if (initialCapacity > 0) {
@@ -61,7 +63,7 @@ public class GiverArrayList<T> {
      *
      * @param index позиция, на которую нужно добавить элемент
      * @param element элемент, который нужно добавить в список
-     * @throws IndexOutOfBoundsException если индекс находится за пределами диапазона (index < 0 || index > size())
+     * @throws java.lang.IndexOutOfBoundsException если индекс находится за пределами диапазона (index < 0 || index > size())
      */
     public void add(int index, T element) {
         checkIndexForAdd(index);
@@ -75,7 +77,7 @@ public class GiverArrayList<T> {
      *
      * @param index индекс элемента, который нужно вернуть
      * @return элемент на указанной позиции в списке
-     * @throws IndexOutOfBoundsException если индекс находится за пределами диапазона (index < 0 || index >= size())
+     * @throws java.lang.IndexOutOfBoundsException если индекс находится за пределами диапазона (index < 0 || index >= size())
      */
     public T get(int index) {
         checkIndex(index);
@@ -87,7 +89,8 @@ public class GiverArrayList<T> {
      * Последний элемент списка обнуляется, чтобы облегчить работу сборщика мусора.
      *
      * @param index индекс элемента для удаления
-     * @throws IndexOutOfBoundsException если индекс находится за пределами диапазона (index < 0 || index >= size)
+     * @throws java.lang.IndexOutOfBoundsException если индекс находится за пределами диапазона (index < 0 || index >= size)
+     * @return size размер массива после удаления элемента
      */
     public int remove(int index) {
         checkIndex(index);
@@ -95,7 +98,7 @@ public class GiverArrayList<T> {
         if (numMoved > 0) {
             System.arraycopy(elements, index+1, elements, index, numMoved);
         }
-        elements[--size] = null; // help GC
+        elements[--size] = null;
         return size;
     }
     /**
@@ -171,7 +174,6 @@ public class GiverArrayList<T> {
      * @return отрицательное целое число, ноль или положительное целое число, если первый элемент
      *         меньше, равен, или больше второго.
      */
-    @SuppressWarnings("unchecked")
     private int compare(T a, T b, Comparator<? super T> c) {
         if (c == null) {
             return ((Comparable<? super T>) a).compareTo(b);
@@ -184,7 +186,7 @@ public class GiverArrayList<T> {
      *
      * @param index индекс заменяемого элемента
      * @param element элемент, который будет сохранен в указанной позиции
-     * @throws IndexOutOfBoundsException если индекс находится за пределами диапазона (index < 0 || index >= size)
+     * @throws java.lang.IndexOutOfBoundsException если индекс находится за пределами диапазона (index < 0 || index >= size)
      */
     public void set(int index, T element) {
         checkIndex(index);
@@ -193,10 +195,11 @@ public class GiverArrayList<T> {
     /**
      * Увеличивает емкость массива элементов списка, если необходимо,
      * для обеспечения места для дополнительных элементов.
+     * Увеличение линейное
      */
     private void ensureCapacity() {
         if (size == elements.length) {
-            elements = Arrays.copyOf(elements, size * 2);
+            elements = Arrays.copyOf(elements, size + 5);
         }
     }
     /**
